@@ -1,0 +1,14 @@
+{
+  "name": "Oceano Azul",
+  "short_name": "Oceano Azul",
+  "description": "Passo a passo da Estratégia do Oceano Azul para quem está começando.",
+  "lang": "pt-BR",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#F3F8FB",
+  "theme_color": "#005EB8",
+  "icons": [
+    { "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }
+  ]
+}

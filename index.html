@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Oceano Azul</title>
+  <meta name="description" content="Transforme a folha de exercício da Estratégia do Oceano Azul em um passo a passo no celular. Seus dados ficam só no seu navegador.">
+  <meta name="theme-color" content="#005EB8">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <a class="skip" href="#/">Pular para o conteúdo</a>
+  <header class="site-header no-print">
+    <a class="brand" href="#/">
+      <svg class="icon" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M2 6c.6.5 1.2 1 2.5 1C7 7 7 5 9.5 5c2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"/><path d="M2 12c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"/><path d="M2 18c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"/></svg>
+      <span>Oceano Azul</span>
+    </a>
+  </header>
+  <div id="storage-warning" class="banner no-print" role="status" hidden>
+    Este navegador não permite salvar os dados. Você pode continuar, mas o que escrever se perde ao fechar a página. Use "Exportar JSON" para guardar.
+  </div>
+  <main id="app" tabindex="-1"><noscript><p class="notice">Este app precisa de JavaScript para funcionar.</p></noscript></main>
+  <div id="toast" class="toast no-print" role="status" aria-live="polite"></div>
+  <footer class="site-footer no-print">
+    <p>Baseado na Estratégia do Oceano Azul (W. Chan Kim e Renée Mauborgne). Seus dados ficam só neste navegador.</p>
+    <p class="dev-credit">Desenvolvimento: <a href="https://gorilash.com.br" target="_blank" rel="noopener noreferrer">Gorila Software House</a> · Código aberto no <a href="https://github.com/rotteny/oceano-azul" target="_blank" rel="noopener noreferrer">GitHub</a></p>
+  </footer>
+  <script src="vendor/chart.umd.min.js"></script>
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>

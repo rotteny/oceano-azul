@@ -2,7 +2,7 @@
 import { h } from './dom.js';
 import * as store from './store.js';
 import { ideaTitle } from './model.js';
-import { button, confirmDialog, toast } from './ui.js';
+import { button, confirmDialog, renameAnalysis, toast } from './ui.js';
 import { importControl } from './actions.js';
 
 const stamp = (ms) =>
@@ -28,10 +28,11 @@ export function renderList(root) {
   };
 
   const card = (a) =>
-    h('li', { class: 'idea-card' },
+    h('li', { class: 'idea-card', onclick: (e) => { if (!e.target.closest('button')) open(a.id); } },
       h('div', { class: 'idea-info' }, h('h3', {}, ideaTitle(a)), h('p', { class: 'muted' }, `Alterada em ${stamp(a.updatedAt)}`)),
       h('div', { class: 'idea-actions' },
-        button({ text: 'Abrir', icon: 'arrow-right', variant: 'primary', label: `Abrir: ${ideaTitle(a)}`, onclick: () => open(a.id) }),
+        button({ text: 'Abrir / editar', icon: 'arrow-right', variant: 'primary', label: `Abrir: ${ideaTitle(a)}`, onclick: () => open(a.id) }),
+        button({ text: 'Renomear', icon: 'pencil', label: `Renomear: ${ideaTitle(a)}`, onclick: () => renameAnalysis(a, draw) }),
         button({ text: 'Duplicar', icon: 'copy', label: `Duplicar: ${ideaTitle(a)}`, onclick: () => { store.duplicate(a.id); draw(); toast('Análise duplicada.'); } }),
         button({
           text: 'Excluir', icon: 'trash', variant: 'danger-outline', label: `Excluir: ${ideaTitle(a)}`,

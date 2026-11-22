@@ -26,7 +26,7 @@ export const TEST_FIELDS = [
   { key: 'who', label: 'Quem vai me cobrar' },
 ];
 
-const LIMITS = { idea: 1000, gap: 600, factor: 80, rule: 400, test: 400 };
+const LIMITS = { name: 80, idea: 1000, gap: 600, factor: 80, rule: 400, test: 400 };
 
 export const newId = () =>
   globalThis.crypto?.randomUUID?.() ?? `${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 10)}`;
@@ -50,6 +50,7 @@ export function newAnalysis() {
   const now = Date.now();
   return {
     id: newId(), schemaVersion: SCHEMA_VERSION, createdAt: now, updatedAt: now,
+    name: '',
     idea: '',
     factors: Array.from({ length: DEFAULT_FACTORS }, newFactor),
     gap: '',
@@ -61,7 +62,8 @@ export function newAnalysis() {
 export const addFactor = (a) => a.factors.push(newFactor());
 
 export function ideaTitle(a) {
-  const line = (a.idea || '').trim().split('\n')[0].trim();
+  const name = (a.name || '').trim();
+  const line = name || (a.idea || '').trim().split('\n')[0].trim();
   if (!line) return 'Ideia sem nome';
   return line.length > 60 ? `${line.slice(0, 60)}…` : line;
 }
@@ -83,6 +85,7 @@ export function shapeError(a) {
       return 'Há um fator do Raio-x com dados inválidos (as notas devem ser de 1 a 5 ou vazias).';
     }
   }
+  if (a.name !== undefined && typeof a.name !== 'string') return 'O nome da análise é inválido.';
   if (typeof a.idea !== 'string' || typeof a.gap !== 'string') return 'Os textos da ideia ou da brecha estão ausentes.';
   if (!isObj(a.rules) || RULES.some((r) => typeof a.rules[r.key] !== 'string')) {
     return 'As respostas da nova regra do jogo estão ausentes ou inválidas.';
@@ -103,6 +106,7 @@ export function sanitizeAnalysis(a, { fresh = false } = {}) {
     schemaVersion: SCHEMA_VERSION,
     createdAt: fresh ? now : stamp(a.createdAt),
     updatedAt: fresh ? now : stamp(a.updatedAt),
+    name: str(a.name, LIMITS.name).replace(/\s+/g, ' ').trim(),
     idea: str(a.idea, LIMITS.idea),
     factors: a.factors.map((f) => ({ id: newId(), name: str(f.name, LIMITS.factor), mine: f.mine, others: f.others })),
     gap: str(a.gap, LIMITS.gap),

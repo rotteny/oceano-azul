@@ -2,12 +2,12 @@
 import { h } from './dom.js';
 import { icon } from './icons.js';
 import * as store from './store.js';
-import { STEPS, missing } from './model.js';
+import { STEPS, ideaTitle, missing } from './model.js';
 import { buildIdeia, buildRegra, buildTeste } from './steps.js';
 import { buildRaioX } from './raiox.js';
 import { buildDashboard } from './dashboard.js';
 import { helpBox } from './help.js';
-import { button } from './ui.js';
+import { button, renameAnalysis } from './ui.js';
 
 const BUILDERS = [buildIdeia, buildRaioX, buildRegra, buildTeste, buildDashboard];
 const LAST = STEPS.length - 1;
@@ -25,8 +25,14 @@ export function renderWizard(root, a, step) {
     hint.hidden = list.length === 0;
     hint.textContent = list.length ? `Ainda em branco: ${list.join(', ')}. Você pode avançar mesmo assim.` : '';
   };
+  const nameText = h('span', { class: 'analysis-name-text' });
+  const paintName = () => { nameText.textContent = ideaTitle(a); };
+  const nameRow = h('p', { class: 'analysis-name no-print' },
+    h('span', { class: 'muted' }, 'Análise: '), nameText,
+    button({ icon: 'pencil', variant: 'ghost', cls: 'btn--icon', label: 'Renomear análise', onclick: () => renameAnalysis(a, () => { paintName(); const f = root.querySelector('.field--name input'); if (f) f.value = a.name; }) }));
+  paintName();
   const ctx = {
-    edit: (fn) => store.edit(a.id, fn),
+    edit: (fn) => { store.edit(a.id, fn); paintName(); },
     refreshHint,
     afterMount: (fn) => mounted.push(fn),
     onCleanup: (fn) => cleanups.push(fn),
@@ -61,6 +67,7 @@ export function renderWizard(root, a, step) {
     { class: 'nav-buttons no-print' },
     button({ text: step === 0 ? 'Minhas ideias' : 'Voltar', icon: 'arrow-left', onclick: () => go(step - 1) }),
     step < LAST && button({ text: step === LAST - 1 ? 'Ver painel' : 'Avançar', icon: 'arrow-right', variant: 'primary', cls: 'btn--next', onclick: () => go(step + 1) }),
+    step === LAST && button({ text: 'Editar análise', icon: 'pencil', onclick: () => go(0) }),
     step === LAST && button({ text: 'Minhas ideias', variant: 'primary', onclick: () => go(-1) }),
   );
 
@@ -69,7 +76,7 @@ export function renderWizard(root, a, step) {
       h('div', { class: 'wiz-top no-print' }, h('a', { class: 'back-link', href: '#/' }, icon('arrow-left', 16), 'Minhas ideias'), saveStatus),
       steps,
       h('progress', { class: 'progress no-print', max: STEPS.length, value: step + 1, 'aria-label': `Etapa ${step + 1} de ${STEPS.length}` }),
-      heading,
+      heading, nameRow,
       h('div', { class: 'no-print' }, helpBox(step)),
       body, hint, nav),
   );

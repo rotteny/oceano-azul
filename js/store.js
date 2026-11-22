@@ -1,5 +1,5 @@
 // Persistência em localStorage (chave versionada). O app funciona mesmo se o storage falhar.
-import { SCHEMA_VERSION, newAnalysis, sanitizeAnalysis } from './model.js';
+import { FIELD_LIMITS, SCHEMA_VERSION, newAnalysis, sanitizeAnalysis } from './model.js';
 
 export const KEY = 'oceano-azul:v1';
 const SAVE_DELAY_MS = 500;
@@ -85,12 +85,19 @@ export function edit(id, fn) {
   schedule();
 }
 
+export const rename = (id, name) =>
+  edit(id, (a) => { a.name = name.replace(/\s+/g, ' ').trim().slice(0, FIELD_LIMITS.name); });
+
 export function duplicate(id) {
   const src = get(id);
   if (!src) return null;
   const copy = sanitizeAnalysis(src, { fresh: true });
-  const [first = '', ...rest] = copy.idea.split('\n');
-  copy.idea = [`${first} (cópia)`.trim(), ...rest].join('\n');
+  if (copy.name) {
+    copy.name = `${copy.name} (cópia)`.slice(0, FIELD_LIMITS.name);
+  } else {
+    const [first = '', ...rest] = copy.idea.split('\n');
+    copy.idea = [`${first} (cópia)`.trim(), ...rest].join('\n');
+  }
   return add(copy);
 }
 

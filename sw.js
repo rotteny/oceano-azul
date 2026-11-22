@@ -1,6 +1,6 @@
-// Service worker: cache dos assets (stale-while-revalidate) para uso offline.
-// Ao mudar qualquer arquivo, aumente CACHE_VERSION.
-const CACHE_VERSION = 'oceano-azul-v2';
+// Service worker: network-first com fallback para o cache (offline continua funcionando).
+// Assim as atualizações chegam sem depender de lembrar o bump; ainda assim suba CACHE_VERSION ao mudar arquivos.
+const CACHE_VERSION = 'oceano-azul-v3';
 const ASSETS = [
   './', 'index.html', 'manifest.webmanifest', 'icon.svg', 'css/style.css',
   'vendor/chart.umd.min.js', 'config.js', 'assets/parceiros/sebrae.svg',
@@ -25,15 +25,14 @@ self.addEventListener('fetch', (event) => {
   if (request.method !== 'GET' || new URL(request.url).origin !== self.location.origin) return;
   event.respondWith(
     caches.open(CACHE_VERSION).then(async (cache) => {
-      const cached = await cache.match(request, { ignoreSearch: true });
-      const network = fetch(request)
-        .then((res) => {
-          if (res.ok) cache.put(request, res.clone());
-          return res;
-        })
-        .catch(() => null);
-      if (cached) return cached;
-      return (await network) || (request.mode === 'navigate' ? cache.match('index.html') : Response.error());
+      try {
+        const res = await fetch(request, { cache: 'no-cache' });
+        if (res.ok) cache.put(request, res.clone());
+        return res;
+      } catch {
+        const cached = await cache.match(request, { ignoreSearch: true });
+        return cached || (request.mode === 'navigate' ? cache.match('index.html') : Response.error());
+      }
     }),
   );
 });

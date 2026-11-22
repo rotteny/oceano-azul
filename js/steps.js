@@ -8,6 +8,11 @@ export function buildIdeia(a, ctx) {
     'div',
     { class: 'step-fields' },
     field({
+      label: 'Nome da análise', cls: 'field--name', maxlength: FIELD_LIMITS.name, value: a.name, placeholder: 'ex.: Food truck de açaí',
+      hint: 'É o nome que aparece na lista "Minhas ideias". Você pode mudar quando quiser.',
+      onInput: (v) => ctx.edit(() => { a.name = v; }),
+    }),
+    field({
       label: 'Minha ideia (ou um problema que vivo no dia a dia)', multiline: true, rows: 6,
       maxlength: FIELD_LIMITS.idea, value: a.idea, placeholder: 'Escreva com as suas palavras.',
       onInput: (v) => ctx.edit(() => { a.idea = v; }),

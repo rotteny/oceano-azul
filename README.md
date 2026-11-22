@@ -53,6 +53,15 @@ export const partner = { name: 'Nome do parceiro', logo: 'parceiro/logo.svg', ur
 
 HTML, CSS e JavaScript puros (ES modules), sem build. Gráficos com [Chart.js](https://www.chartjs.org/) 4.4.9 (MIT), copiado para `vendor/`. Ícones no estilo [Lucide](https://lucide.dev/) (ISC). Licenças em `vendor/LICENSES.md`. Todo texto do usuário entra no DOM por `textContent`, inclusive o JSON importado.
 
-## Licença
+## Licença e créditos
 
-Código sob MIT (veja `LICENSE`). A marca Sebrae pertence ao Sebrae e não é coberta por essa licença; veja `vendor/LICENSES.md`.
+O código está sob a licença **MIT** (veja `LICENSE`), © 2026 Gorila Software House.
+
+Em linguagem simples:
+
+- **É gratuito.** Qualquer pessoa ou instituição pode usar, copiar, adaptar, publicar e distribuir este app, inclusive dentro de programas próprios, sem pagar nada e sem pedir autorização.
+- **A única condição é manter os créditos.** Toda cópia ou versão adaptada precisa manter o aviso de copyright da Gorila Software House e o texto da licença (o arquivo `LICENSE`). Pedimos também, como gentileza, que o crédito "Desenvolvimento: Gorila Software House" continue visível no rodapé.
+- **Não existe nenhuma outra obrigação.** Não há taxa, contrato, cadastro, exclusividade nem suporte obrigatório, de nenhum dos lados.
+- **Sem garantia.** O app é oferecido como está, em trabalho voluntário.
+
+A marca Sebrae pertence ao Sebrae e não é coberta por essa licença; veja `vendor/LICENSES.md`.
